@@ -1,7 +1,7 @@
 /*
  * This Macro is meant to import all images in a folder and process them one at a time - Processing includes enhancing the contrast of an image, thresholding the image locally, ensuring that the image is binary, segmentation of neighbouring objects by application of a watershed algorithm, followed by the analysis of objects and the production of a summary .csv file. This summary should then be saved to another(?) output directory in order to summarize the measurements for downstream applications. 
  */
-
+ 
 /*
  * Based on template to process multiple images in a folder
  */
