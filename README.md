@@ -13,7 +13,6 @@
     * Similiar to Note1
 5. Automate calling and editing/concatenating of .csv files 
     * Similiar to Note1
-    $$ 1 + 2 = 12$$
 6. Automate statistical processing of measurements within R/RStudio
     * Note3: This may be delayed until a better R-package is designed / intergratable for this purpose
 
