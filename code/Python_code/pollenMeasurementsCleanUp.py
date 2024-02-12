@@ -1,22 +1,27 @@
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
+import glob
 import pandas as pd
 
-#Use user input to determine input and output paths
+inputpath = askdirectory(title='Select Folder containing input .csv spreadsheets to be cleaned up') # shows dialog box and return the path
+print(inputpath)
 
-#Make this iterate through all files in the input folder.
+outputpath = askdirectory(title='Select Folder to contain output .csv spreadsheets to be cleaned up') # shows dialog box and return the path
+print(outputpath)
 
-# Read the CSV file
-df = pd.read_csv('/c:/GIT/IB_516_W24/code/Python_code/pollenMeasurementsCleanUp.csv')
+#Create list of files in input folder 
+inputFiles = glob.glob(inputpath + '/*.csv')
 
-# Add the new columns
-##CHECK THIS NOTATION
-df['Family_ID'] = ''
-df['Individual_Plant_Number'] = ''
-df['Collection_Date'] = ''
-df['Imaging_Date'] = ''
-df['ImageProcessing_Date'] = ''
+#for each file in the list, add the new columns and save the modified DataFrame back to the CSV file
+for file in inputFiles:
+    df = pd.read_csv(file)
+    df['Family_ID'] = ''   
+    df['Individual_Plant_Number'] = ''
+    df['Collection_Date'] = ''
+    df['Imaging_Date'] = ''
+    df['ImageProcessing_Date'] = ''
+    df.to_csv(outputpath + '/pollenMeasurementsCleanUp.csv', index=False)
 
-# Save the modified DataFrame back to the CSV file
-df.to_csv('/c:/GIT/IB_516_W24/code/Python_code/pollenMeasurementsCleanUp.csv', index=False)
+print('All files have been cleaned up and saved to the output folder')
 
-##Do I need to add a print statement to confirm that the new columns have been added?
-##From here, import data from input file name
+
