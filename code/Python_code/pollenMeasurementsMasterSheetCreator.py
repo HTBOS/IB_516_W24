@@ -9,6 +9,7 @@ import os
 import csv ###do I need/want to import csv? Looking at just using glob and shutil
 import glob
 import shutil
+import pandas as pd
 
 
 #Define the paths to be used (the folder containing the .csv files, and the folder to write the output to)
@@ -16,28 +17,66 @@ multipleInputFilesCheck = input('Are there multiple input folders? (y/n)') #This
 if multipleInputFilesCheck == 'y':
     inputpath = askdirectory(title='Select Folder containing input .csv files') # shows dialog box and return the path
     print(inputpath) 
+    #store the inputpath in a list called inputpathList
+    inputpathList = []
+    inputpathList.append(inputpath)
     while True:
         moreInputFolders = input('Are there more input folders? (y/n)')
+        
         if moreInputFolders == 'y':
+            newDirectory = input('What do you want to name the new directory? This will be the directory that contains all the input files. If it does not exist, it will be created. ')
+            #trim the inputpath to just the last folder name, and add it to the newDirectory name
+            print(newDirectory)
+ 
+            # Split the path from the current inputpath
+            head_tail = os.path.split(inputpath)
+            print(head_tail)
+
+            newDirectory = head_tail[0] + '/'+ newDirectory
+            print(newDirectory)
+            
+            os.mkdir(newDirectory)
+
+        while moreInputFolders == 'y':
             inputpath = askdirectory(title='Select Folder containing input .csv files') # shows dialog box and return the path
-            print(inputpath) ##Do I want to create a newDirectory to copy the files of ALL input folders to? If so, how do I do that?
+            inputpathList.append(inputpath)
+
+            #remove duplicates from the list - This should make the following checks a little quicker when there are many input folders being used
+            inputpathList = list(set(inputpathList))
+
+            #check if the inputpath has been selected previously, and if so, skip it, and ask for another inputpath
+            if inputpath in inputpathList:
+                print('This input folder has already been selected')
+                inputpath = askdirectory(title='Select Folder containing input .csv files') # shows dialog box and return the path
+
+
+            #print('Files copied to new directory')
+            moreInputFolders = input('Are there more input folders? (y/n)')
+
         if moreInputFolders == 'n':
+            #copy all files in input path to a new directory for all input paths
+            # for all files in the input path, copy them to the new directory
+            for inputpath in inputpathList:
+                for file in glob.glob(inputpath + '/*.csv'):
+                    shutil.copy(file, newDirectory)
             break
     
 else:
     inputpath = askdirectory(title='Select Folder containing input .csv files') # shows dialog box and return the path
     print(inputpath) 
 
-outputpath = askdirectory(title='Select Folder to contain output .csv master spreadsheet') # shows dialog box and return the path
-print(outputpath) 
+if multipleInputFilesCheck == 'y':
+    outputpath = newDirectory 
+    print(outputpath)
 
-
+else:
+    outputpath = askdirectory(title='Select Folder to contain output .csv master spreadsheet') # shows dialog box and return the path
+    print(outputpath)  
 
 
 #Check if the MasterSheet already exists, and if not, create it
-#If it does, ask the user if they want to overwrite it
-##Do I need this if I'm just going to do concatenation?
-if '/MasterSheet.csv' in os.listdir(outputpath):
+#If it does exist, ask the user if they want to overwrite it
+if 'MasterSheet.csv' in os.listdir(outputpath):
     print('MasterSheet already exists')
     masterSheetRewrite = input('Do you want to overwrite the MasterSheet? (y/n)')
     if masterSheetRewrite == 'y':
@@ -45,7 +84,7 @@ if '/MasterSheet.csv' in os.listdir(outputpath):
         print('MasterSheet removed')
         with open(outputpath + '/MasterSheet.csv', 'w') as newMasterSheet:
             writer = csv.writer(newMasterSheet)
-            writer.writerow(['Image', 'Pollen Grain', 'Length', 'Width', 'Area', 'Perimeter', 'Circularity', 'Major Axis Length', 'Minor Axis Length', 'Angle'])
+            writer.writerow(['_','Area','Perim.','Circ.','Feret','FeretX','FeretY','FeretAngle','MinFeret','AR','Round','Solidity','Family_ID','Individual_Plant_Number','Collection_Date','Imaging_Date','ImageProcessing_Date','Further_Data_Differentiation'])
             #NOTE that this header will need to be changed if the user is looking to utilize input data with different header(s)
     if masterSheetRewrite == 'n': 
         print('MasterSheet not removed')
@@ -54,7 +93,8 @@ if '/MasterSheet.csv' in os.listdir(outputpath):
 else:
     with open(outputpath + '/MasterSheet.csv', 'w') as newMasterSheet:
         writer = csv.writer(newMasterSheet)
-        writer.writerow(['Image', 'Pollen Grain', 'Length', 'Width', 'Area', 'Perimeter', 'Circularity', 'Major Axis Length', 'Minor Axis Length', 'Angle'])
+        #writer.writerow(['Image', 'Pollen Grain', 'Length', 'Width', 'Area', 'Perimeter', 'Circularity', 'Major Axis Length', 'Minor Axis Length', 'Angle'])
+        writer.writerow(['_','Area','Perim.','Circ.','Feret','FeretX','FeretY','FeretAngle','MinFeret','AR','Round','Solidity','Family_ID','Individual_Plant_Number','Collection_Date','Imaging_Date','ImageProcessing_Date','Further_Data_Differentiation'])
         #NOTE that this header will need to be changed if the user is looking to utilize input data with different header(s)
 
 
@@ -64,14 +104,11 @@ else:
 #https://stackoverflow.com/a/44791486 - based on this code
         
 allFilesin = glob.glob(inputpath + "/*.csv")
-allFilesin.sort()  # glob lacks reliable ordering, so impose your own if output order matters
-with open('someoutputfile.csv', 'wb') as outfile:
-    for i, filename in enumerate(allFilesin):
-        with open(filename, 'rb') as infile:
-            if i != 0:
-                infile.readline()  # Throw away header on all but first file
-            # Block copy rest of file from input to output without parsing
-            shutil.copyfileobj(infile, outfile)
-            print(filename + " has been imported.")
+#allFilesin.sort()  # glob lacks reliable ordering, so impose your own if output order matters
+MasterSheetdf = pd.concat((pd.read_csv(file) for file in allFilesin), ignore_index=True)
+#save the resulting data frame as a .csv file in the output folder
+MasterSheetdf.to_csv(outputpath + '/MasterSheet.csv', index=False)
+
+
 
 print("MasterSheet Updated")
