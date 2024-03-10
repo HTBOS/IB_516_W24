@@ -18,85 +18,189 @@ df = pd.read_csv(inputpath + '/Polished_MasterSheet.csv')
 ##For each column, calculate the mean, median, and standard deviation and save these values to a new DataFrame
 summary_stats = pd.DataFrame(columns=['family_individual_note', 'area_Mean', 'area_Median', 'area_std_dev', 'SBC_Area', 'perimeter_Mean', 'perimeter_Median', 'perimeter_std_dev', 'SBC_Perim', 'circ_Mean', 'circ_Median', 'circ_std_dev', 'SBC_Circ', 'feret_Mean', 'feret_Median', 'feret_std_dev', 'SBC_Feret', 'minFeret_Mean', 'minFeret_Median', 'minFeret_std_dev', 'SBC_MinFeret', 'AR_Mean', 'AR_Median', 'AR_std_dev', 'SBC_AR', 'round_Mean', 'round_Median', 'round_std_dev', 'SBC_Round', 'solidity_Mean', 'solidity_Median', 'solidity_std_dev', 'SBC_Solidity'])
 
+#ask for user input to determine if they want to summarise the data for all unique values in the 'Family_Individual_Note' column or all unique values in the 'Family_ID' column
+summary_choice = input('Would you like to summarise the data for each individual sample or for each family? Please type "ind" or "fam" and press enter:')
+
+if summary_choice == 'ind':
+    summary_stats = pd.DataFrame(columns=['family_individual_note', 'area_Mean', 'area_Median', 'area_std_dev', 'SBC_Area', 'perimeter_Mean', 'perimeter_Median', 'perimeter_std_dev', 'SBC_Perim', 'circ_Mean', 'circ_Median', 'circ_std_dev', 'SBC_Circ', 'feret_Mean', 'feret_Median', 'feret_std_dev', 'SBC_Feret', 'minFeret_Mean', 'minFeret_Median', 'minFeret_std_dev', 'SBC_MinFeret', 'AR_Mean', 'AR_Median', 'AR_std_dev', 'SBC_AR', 'round_Mean', 'round_Median', 'round_std_dev', 'SBC_Round', 'solidity_Mean', 'solidity_Median', 'solidity_std_dev', 'SBC_Solidity'])
+
+if summary_choice == 'fam':
+    summary_stats = pd.DataFrame(columns=['Family_ID', 'area_Mean', 'area_Median', 'area_std_dev', 'SBC_Area', 'perimeter_Mean', 'perimeter_Median', 'perimeter_std_dev', 'SBC_Perim', 'circ_Mean', 'circ_Median', 'circ_std_dev', 'SBC_Circ', 'feret_Mean', 'feret_Median', 'feret_std_dev', 'SBC_Feret', 'minFeret_Mean', 'minFeret_Median', 'minFeret_std_dev', 'SBC_MinFeret', 'AR_Mean', 'AR_Median', 'AR_std_dev', 'SBC_AR', 'round_Mean', 'round_Median', 'round_std_dev', 'SBC_Round', 'solidity_Mean', 'solidity_Median', 'solidity_std_dev', 'SBC_Solidity'])
+
+
+
+if summary_choice == 'ind':     
 #Calculate the mean, median, and standard deviation for the Area column for each unique value in the 'Family_Individual_Note' column
-for family_individual_note in df['Family_Individual_Note'].unique():
-    #create a new DataFrame for the current family_individual_note
-    current_df = df[df['Family_Individual_Note'] == family_individual_note]
-    #calculate the mean, median, and standard deviation for the Area column
-    area_Mean = current_df['Area'].mean()
-    area_Median = current_df['Area'].median()
-    area_std_dev = current_df['Area'].std()
+    for family_individual_note in df['Family_Individual_Note'].unique():
+        #create a new DataFrame for the current family_individual_note
+        current_df = df[df['Family_Individual_Note'] == family_individual_note]
 
-    perimeter_Mean = current_df['Perim.'].mean()
-    perimeter_Median = current_df['Perim.'].median()
-    perimeter_std_dev = current_df['Perim.'].std()
+        #calculate the mean, median, and standard deviation for the Area column
+        area_Mean = current_df['Area'].mean()
+        area_Median = current_df['Area'].median()
+        area_std_dev = current_df['Area'].std()
 
-    circ_Mean = current_df['Circ.'].mean()
-    circ_Median = current_df['Circ.'].median()
-    circ_std_dev = current_df['Circ.'].std()
+        perimeter_Mean = current_df['Perim.'].mean()
+        perimeter_Median = current_df['Perim.'].median()
+        perimeter_std_dev = current_df['Perim.'].std()
 
-    feret_Mean = current_df['Feret'].mean()
-    feret_Median = current_df['Feret'].median()
-    feret_std_dev = current_df['Feret'].std()
+        circ_Mean = current_df['Circ.'].mean()
+        circ_Median = current_df['Circ.'].median()
+        circ_std_dev = current_df['Circ.'].std()
 
-    minFeret_Mean = current_df['MinFeret'].mean()
-    minFeret_Median = current_df['MinFeret'].median()
-    minFeret_std_dev = current_df['MinFeret'].std()
+        feret_Mean = current_df['Feret'].mean()
+        feret_Median = current_df['Feret'].median()
+        feret_std_dev = current_df['Feret'].std()
 
-    AR_Mean = current_df['AR'].mean()
-    AR_Median = current_df['AR'].median()
-    AR_std_dev = current_df['AR'].std()
+        minFeret_Mean = current_df['MinFeret'].mean()
+        minFeret_Median = current_df['MinFeret'].median()
+        minFeret_std_dev = current_df['MinFeret'].std()
 
-    round_Mean = current_df['Round'].mean()
-    round_Median = current_df['Round'].median()
-    round_std_dev = current_df['Round'].std()
+        AR_Mean = current_df['AR'].mean()
+        AR_Median = current_df['AR'].median()
+        AR_std_dev = current_df['AR'].std()
 
-    solidity_Mean = current_df['Solidity'].mean()
-    solidity_Median = current_df['Solidity'].median()
-    solidity_std_dev = current_df['Solidity'].std()
+        round_Mean = current_df['Round'].mean()
+        round_Median = current_df['Round'].median()
+        round_std_dev = current_df['Round'].std()
 
-    #capture the kurtosis and skewness for each column
-    Area_kurtosis = current_df['Area'].kurtosis()
-    Area_skewness = current_df['Area'].skew()
+        solidity_Mean = current_df['Solidity'].mean()
+        solidity_Median = current_df['Solidity'].median()
+        solidity_std_dev = current_df['Solidity'].std()
 
-    Perim_kurtosis = current_df['Perim.'].kurtosis()
-    Perim_skewness = current_df['Perim.'].skew()
+        #capture the kurtosis and skewness for each column
+        Area_kurtosis = current_df['Area'].kurtosis()
+        Area_skewness = current_df['Area'].skew()
 
-    Circ_kurtosis = current_df['Circ.'].kurtosis()
-    Circ_skewness = current_df['Circ.'].skew()
+        Perim_kurtosis = current_df['Perim.'].kurtosis()
+        Perim_skewness = current_df['Perim.'].skew()
 
-    Feret_kurtosis = current_df['Feret'].kurtosis()
-    Feret_skewness = current_df['Feret'].skew()
+        Circ_kurtosis = current_df['Circ.'].kurtosis()
+        Circ_skewness = current_df['Circ.'].skew()
 
-    MinFeret_kurtosis = current_df['MinFeret'].kurtosis()
-    MinFeret_skewness = current_df['MinFeret'].skew()
+        Feret_kurtosis = current_df['Feret'].kurtosis()
+        Feret_skewness = current_df['Feret'].skew()
 
-    AR_kurtosis = current_df['AR'].kurtosis()
-    AR_skewness = current_df['AR'].skew()
+        MinFeret_kurtosis = current_df['MinFeret'].kurtosis()
+        MinFeret_skewness = current_df['MinFeret'].skew()
 
-    Round_kurtosis = current_df['Round'].kurtosis()
-    Round_skewness = current_df['Round'].skew()
+        AR_kurtosis = current_df['AR'].kurtosis()
+        AR_skewness = current_df['AR'].skew()
 
-    Solidity_kurtosis = current_df['Solidity'].kurtosis()
-    Solidity_skewness = current_df['Solidity'].skew()
+        Round_kurtosis = current_df['Round'].kurtosis()
+        Round_skewness = current_df['Round'].skew()
 
-    #calculate the Sarle's bimodality coefficient for each column
-    SBC_Area = (Area_skewness**2 + 1) / (Area_kurtosis)  #This is one(!!!) formula for Sarle's bimodality coefficient, but may need to be checked for usage on our distributions, given that the pollen grains in our images are 'randomly sampled', but we may need to randomly sample from our resulting measurements to calculate this coefficeint correctly.
-    SBC_Perim = (Perim_skewness**2 + 1) / (Perim_kurtosis)
-    SBC_Circ = (Circ_skewness**2 + 1) / (Circ_kurtosis)
-    SBC_Feret = (Feret_skewness**2 + 1) / (Feret_kurtosis)
-    SBC_MinFeret = (MinFeret_skewness**2 + 1) / (MinFeret_kurtosis)
-    SBC_AR = (AR_skewness**2 + 1) / (AR_kurtosis)
-    SBC_Round = (Round_skewness**2 + 1) / (Round_kurtosis)
-    SBC_Solidity = (Solidity_skewness**2 + 1) / (Solidity_kurtosis)
+        Solidity_kurtosis = current_df['Solidity'].kurtosis()
+        Solidity_skewness = current_df['Solidity'].skew()
 
-    
-    #create a list of the current family_individual_note, mean, median, and standard deviation for all above specified columns/measures.
-    summary_stats_list = [family_individual_note, area_Mean, area_Median, area_std_dev, SBC_Area, perimeter_Mean, perimeter_Median, perimeter_std_dev, SBC_Perim, circ_Mean, circ_Median, circ_std_dev, SBC_Circ, feret_Mean, feret_Median, feret_std_dev, SBC_Feret, minFeret_Mean, minFeret_Median, minFeret_std_dev, SBC_MinFeret, AR_Mean, AR_Median, AR_std_dev, SBC_AR, round_Mean, round_Median, round_std_dev, SBC_Round, solidity_Mean, solidity_Median, solidity_std_dev, SBC_Solidity]
-    
-    #write the list to the summary_stats DataFrame as a new row, with each item in the list in a separate column
-    summary_stats.loc[len(summary_stats)] = summary_stats_list
+        #calculate the Sarle's bimodality coefficient for each column
+        SBC_Area = (Area_skewness**2 + 1) / (Area_kurtosis)  #This is one(!!!) formula for Sarle's bimodality coefficient, but may need to be checked for usage on our distributions, given that the pollen grains in our images are 'randomly sampled', but we may need to randomly sample from our resulting measurements to calculate this coefficeint correctly.
+        SBC_Perim = (Perim_skewness**2 + 1) / (Perim_kurtosis)
+        SBC_Circ = (Circ_skewness**2 + 1) / (Circ_kurtosis)
+        SBC_Feret = (Feret_skewness**2 + 1) / (Feret_kurtosis)
+        SBC_MinFeret = (MinFeret_skewness**2 + 1) / (MinFeret_kurtosis)
+        SBC_AR = (AR_skewness**2 + 1) / (AR_kurtosis)
+        SBC_Round = (Round_skewness**2 + 1) / (Round_kurtosis)
+        SBC_Solidity = (Solidity_skewness**2 + 1) / (Solidity_kurtosis)
 
-#save the summary_stats DataFrame as a new CSV file in the output folder
-summary_stats.to_csv(outputpath + '/' + 'SummaryStats.csv', index=False)
+        
+        #create a list of the current family_individual_note, mean, median, and standard deviation for all above specified columns/measures.
+        summary_stats_list = [family_individual_note, area_Mean, area_Median, area_std_dev, SBC_Area, perimeter_Mean, perimeter_Median, perimeter_std_dev, SBC_Perim, circ_Mean, circ_Median, circ_std_dev, SBC_Circ, feret_Mean, feret_Median, feret_std_dev, SBC_Feret, minFeret_Mean, minFeret_Median, minFeret_std_dev, SBC_MinFeret, AR_Mean, AR_Median, AR_std_dev, SBC_AR, round_Mean, round_Median, round_std_dev, SBC_Round, solidity_Mean, solidity_Median, solidity_std_dev, SBC_Solidity]
+        
+        #write the list to the summary_stats DataFrame as a new row, with each item in the list in a separate column
+        summary_stats.loc[len(summary_stats)] = summary_stats_list
 
+
+if summary_choice == 'fam':
+        
+    #Calculate the mean, median, and standard deviation for the Area column for each unique value in the 'Family_Individual_Note' column
+    for Family_ID in df['Family_ID'].unique():
+        #create a new DataFrame for the current family_individual_note
+        current_df = df[df['Family_ID'] == Family_ID]
+
+        #calculate the mean, median, and standard deviation for the Area column
+        area_Mean = current_df['Area'].mean()
+        area_Median = current_df['Area'].median()
+        area_std_dev = current_df['Area'].std()
+
+        perimeter_Mean = current_df['Perim.'].mean()
+        perimeter_Median = current_df['Perim.'].median()
+        perimeter_std_dev = current_df['Perim.'].std()
+
+        circ_Mean = current_df['Circ.'].mean()
+        circ_Median = current_df['Circ.'].median()
+        circ_std_dev = current_df['Circ.'].std()
+
+        feret_Mean = current_df['Feret'].mean()
+        feret_Median = current_df['Feret'].median()
+        feret_std_dev = current_df['Feret'].std()
+
+        minFeret_Mean = current_df['MinFeret'].mean()
+        minFeret_Median = current_df['MinFeret'].median()
+        minFeret_std_dev = current_df['MinFeret'].std()
+
+        AR_Mean = current_df['AR'].mean()
+        AR_Median = current_df['AR'].median()
+        AR_std_dev = current_df['AR'].std()
+
+        round_Mean = current_df['Round'].mean()
+        round_Median = current_df['Round'].median()
+        round_std_dev = current_df['Round'].std()
+
+        solidity_Mean = current_df['Solidity'].mean()
+        solidity_Median = current_df['Solidity'].median()
+        solidity_std_dev = current_df['Solidity'].std()
+
+        #capture the kurtosis and skewness for each column
+        Area_kurtosis = current_df['Area'].kurtosis()
+        Area_skewness = current_df['Area'].skew()
+
+        Perim_kurtosis = current_df['Perim.'].kurtosis()
+        Perim_skewness = current_df['Perim.'].skew()
+
+        Circ_kurtosis = current_df['Circ.'].kurtosis()
+        Circ_skewness = current_df['Circ.'].skew()
+
+        Feret_kurtosis = current_df['Feret'].kurtosis()
+        Feret_skewness = current_df['Feret'].skew()
+
+        MinFeret_kurtosis = current_df['MinFeret'].kurtosis()
+        MinFeret_skewness = current_df['MinFeret'].skew()
+
+        AR_kurtosis = current_df['AR'].kurtosis()
+        AR_skewness = current_df['AR'].skew()
+
+        Round_kurtosis = current_df['Round'].kurtosis()
+        Round_skewness = current_df['Round'].skew()
+
+        Solidity_kurtosis = current_df['Solidity'].kurtosis()
+        Solidity_skewness = current_df['Solidity'].skew()
+
+        #calculate the Sarle's bimodality coefficient for each column
+        SBC_Area = (Area_skewness**2 + 1) / (Area_kurtosis)  #This is one(!!!) formula for Sarle's bimodality coefficient, but may need to be checked for usage on our distributions, given that the pollen grains in our images are 'randomly sampled', but we may need to randomly sample from our resulting measurements to calculate this coefficeint correctly.
+        SBC_Perim = (Perim_skewness**2 + 1) / (Perim_kurtosis)
+        SBC_Circ = (Circ_skewness**2 + 1) / (Circ_kurtosis)
+        SBC_Feret = (Feret_skewness**2 + 1) / (Feret_kurtosis)
+        SBC_MinFeret = (MinFeret_skewness**2 + 1) / (MinFeret_kurtosis)
+        SBC_AR = (AR_skewness**2 + 1) / (AR_kurtosis)
+        SBC_Round = (Round_skewness**2 + 1) / (Round_kurtosis)
+        SBC_Solidity = (Solidity_skewness**2 + 1) / (Solidity_kurtosis)
+
+        
+        #create a list of the current family_individual_note, mean, median, and standard deviation for all above specified columns/measures.
+        summary_stats_list = [Family_ID, area_Mean, area_Median, area_std_dev, SBC_Area, perimeter_Mean, perimeter_Median, perimeter_std_dev, SBC_Perim, circ_Mean, circ_Median, circ_std_dev, SBC_Circ, feret_Mean, feret_Median, feret_std_dev, SBC_Feret, minFeret_Mean, minFeret_Median, minFeret_std_dev, SBC_MinFeret, AR_Mean, AR_Median, AR_std_dev, SBC_AR, round_Mean, round_Median, round_std_dev, SBC_Round, solidity_Mean, solidity_Median, solidity_std_dev, SBC_Solidity]
+        
+        #write the list to the summary_stats DataFrame as a new row, with each item in the list in a separate column
+        summary_stats.loc[len(summary_stats)] = summary_stats_list
+
+
+
+if summary_choice == 'ind': 
+    #save the summary_stats DataFrame as a new CSV file in the output folder
+    summary_stats.to_csv(outputpath + '/' + 'SummaryStatsIndividual.csv', index=False)        
+
+if summary_choice == 'fam':
+    #save the summary_stats DataFrame as a new CSV file in the output folder
+    summary_stats.to_csv(outputpath + '/' + 'SummaryStatsFamilies.csv', index=False)        
+
+print('The summary statistics have been saved to the output folder')
