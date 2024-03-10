@@ -30,13 +30,14 @@ Statistical Processing | 70%
 
 ![This is a creative commons liscenced illustration of a pollen grain](https://openclipart.org/download/252936/Pollen4.svg)
 
-##"How do I apply this repo's contents to my own projects"?
+## "How do I apply this repo's contents to my own projects"?
 
 The workflow is fairly straight forward. 
 
-The pollenImageImportandAnalysis.ijm ... Image J Macro needs to be placed in the .jar folder of your copy of Fiji (ImageJ, but with many useful packages included, particulary some that are used by this macro!). After that, restart Fiji and run the macro. It will ask where the micrographs to be processed are, as well as where you'd like the outputs (Masks, measurement .csv files) to be placed. 
+Fiji/ImageJ image processing: 
+-The pollenImageImportandAnalysis.ijm ... Image J Macro needs to be placed in the .jar folder of your copy of Fiji (ImageJ, but with many useful packages included, particulary some that are used by this macro!). After that, restart Fiji and run the macro. It will ask where the micrographs to be processed are, as well as where you'd like the outputs (Masks, measurement .csv files) to be placed. 
 
-You can run all of the python scripts in a .bash script, or execute them one at a time 
+You can run all of the python scripts in a .bash script, or execute them one at a time:
 - pollenMeasurementsUniformityandParsing.py first, then pollenMeasurementsMasterSheetCreator.py, followed by MasterSheetPolishing.py, and finishing with SummaryStats.py. I recommend running each script seperately at first, as each script asks for user input to determine where the .csv files to be processed are located, as well as what folder/directory you would like the output placed in. 
 
 At this point, that's all there is! Downstream analysis are likely to differ from project to project, so I leave the next steps to you!
