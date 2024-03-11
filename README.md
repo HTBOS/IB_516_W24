@@ -30,6 +30,10 @@ Statistical Processing | 70%
 
 ![This is a creative commons liscenced illustration of a pollen grain](https://openclipart.org/download/252936/Pollen4.svg)
 
+## "What is the purpose of this repo?"
+
+Simply put, this workflow is meant to facilitate automated morphological measuring of individual maize pollen grains, as well as downstream concatentation, summarizing, and simple statistical scores for each pollen sample imaged via microscopy. 
+
 ## "How do I apply this repo's contents to my own projects"?
 
 The workflow is fairly straight forward. 
